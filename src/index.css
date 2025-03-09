@@ -7,10 +7,7 @@
   border: 2px dashed #3b82f6 !important;
 }
 
-.drag-over-before {
-  border-top: 2px solid #3b82f6 !important;
-}
-
-.drag-over-after {
-  border-bottom: 2px solid #3b82f6 !important;
+.drag-over-before, .drag-over-after {
+  border: 2px dashed #3b82f6 !important;
+  padding: 10px !important;
 }
