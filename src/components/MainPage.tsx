@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { PlusIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { TaskList } from "@/components/TaskList";
 import { TaskForm } from "@/components/TaskForm";
 import { Modal } from "@/components/Modal";
-import { PlusIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { Theme } from "@/utils/types";
+import Button from "@/components/Button";
 
 export default function MainPage() {
   const [isAddingTask, setIsAddingTask] = useState(false);
@@ -19,11 +20,14 @@ export default function MainPage() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       setTheme(savedTheme as Theme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? Theme.dark : Theme.light);
+      localStorage.setItem("theme", prefersDark ? Theme.dark : Theme.light);
     }
   }, []);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
     if (theme === Theme.dark) {
       document.documentElement.classList.add('dark');
     } else {
@@ -32,42 +36,45 @@ export default function MainPage() {
   }, [theme]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50/90 to-slate-100/90 dark:from-slate-900/90 dark:to-slate-800/90 transition-colors duration-200">
+      <header className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-lg shadow-sm border-b border-slate-200/50 dark:border-slate-700/50 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Task Tracker</h1>
-            <div className="flex items-center space-x-4">
-              <button
+            <h1 className="text-xl font-bold text-slate-900 dark:text-white">
+              Task Tracker
+            </h1>
+            <div className="flex items-center space-x-3">
+              <Button
                 onClick={toggleTheme}
-                className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                className="p-2 rounded-full bg-slate-100/80 dark:bg-slate-700/80 backdrop-blur-sm text-slate-500 dark:text-slate-300 hover:bg-slate-200/80 dark:hover:bg-slate-600/80 transition-colors"
                 title={
                   theme === Theme.light
                     ? "Switch to dark mode"
                     : "Switch to light mode"
                 }
                 type="button"
+                aria-label="Toggle theme"
               >
                 {theme === Theme.light ? (
-                  <MoonIcon className="h-5 w-5" />
+                  <MoonIcon className="h-4 w-4" />
                 ) : (
-                  <SunIcon className="h-5 w-5" />
+                  <SunIcon className="h-4 w-4" />
                 )}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setIsAddingTask(true)}
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="flex items-center px-3 py-1.5 bg-blue-600/90 hover:bg-blue-700/90 dark:bg-blue-500/90 dark:hover:bg-blue-600/90 text-white text-sm rounded-md transition-colors backdrop-blur-sm"
                 title="Create a new task"
               >
-                <PlusIcon className="h-5 w-5 mr-1" /> 
+                <PlusIcon className="h-4 w-4 mr-1" />
                 <span>New Task</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <TaskList />
       </main>
 
