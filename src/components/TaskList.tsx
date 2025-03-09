@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { TaskItem } from "@/components/TaskItem";
 import { useTaskContext } from "@/contexts/TaskContext";
 import { Priority } from "@/utils/types";
+import { initDragAndDrop, destroyDragAndDrop } from "@/utils/dragAndDrop";
 
 export const TaskList: React.FC = () => {
   const {
@@ -36,7 +37,32 @@ export const TaskList: React.FC = () => {
       }
     });
 
-  
+  useEffect(() => {
+    if (taskListRef.current) {
+      initDragAndDrop(
+        '.task-list', 
+        '.task-wrapper', 
+        (startIndex: number, endIndex: number) => {
+          const draggedTaskId = filteredTasks[startIndex]?.id;
+          const dropTaskId = filteredTasks[endIndex]?.id;
+          
+          if (draggedTaskId && dropTaskId) {
+            const originalStartIndex = tasks.findIndex(task => task.id === draggedTaskId);
+            const originalEndIndex = tasks.findIndex(task => task.id === dropTaskId);
+            
+            if (originalStartIndex !== -1 && originalEndIndex !== -1) {
+              reorderTasks(originalStartIndex, originalEndIndex);
+            }
+          }
+        }
+      );
+    }
+    
+    return () => {
+      destroyDragAndDrop('.task-list');
+    };
+  }, [filteredTasks, tasks, reorderTasks]);
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
