@@ -1,0 +1,12 @@
+/* Base styles */
+body {
+  background-color: #f9fafb; 
+  color: #111827; 
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Theme Transition effects */
+* {
+  transition-property: color, background-color, border-color;
+  transition-duration: 200ms;
+}

@@ -1,13 +1,21 @@
-@import "tailwindcss/preflight";
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Drag and drop styles */
-.dragging {
-  opacity: 0.5;
-  border: 2px dashed #3b82f6 !important;
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Drag and drop */
+
+.task-wrapper {
+  user-select: none;
 }
 
-.drag-over-before, .drag-over-after {
-  border: 2px dashed #3b82f6 !important;
-  padding: 10px !important;
+.dragging {
+  opacity: 0.5;
+}
+
+.drag-over-before {
+  border-top: 2px solid blue;
+}
+
+.drag-over-after {
+  border-bottom: 2px solid blue;
 }
