@@ -1,20 +1,11 @@
-import { useState } from 'react'
-import './App.css'
+import MainPage from '@/components/MainPage'
+import { TaskProvider } from '@/contexts/TaskContext'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-      </div>
-      <h1>Task Tracker</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
+    <TaskProvider>
+      <MainPage />
+    </TaskProvider>
   )
 }
 
