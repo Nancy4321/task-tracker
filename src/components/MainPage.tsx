@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-
+import { TaskList } from "@/components/TaskList";
+import { TaskForm } from "@/components/TaskForm";
+import { Modal } from "@/components/Modal";
 import { PlusIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { Theme } from "@/utils/types";
 
 export default function MainPage() {
-
+  const [isAddingTask, setIsAddingTask] = useState(false);
   const [theme, setTheme] = useState<Theme>(Theme.light);
 
   const toggleTheme = () => {
@@ -53,7 +55,7 @@ export default function MainPage() {
                 )}
               </button>
               <button
-
+                onClick={() => setIsAddingTask(true)}
                 className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                 title="Create a new task"
               >
@@ -66,7 +68,16 @@ export default function MainPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <TaskList />
       </main>
+
+      <Modal
+        isOpen={isAddingTask}
+        onClose={() => setIsAddingTask(false)}
+        title="Create New Task"
+      >
+        <TaskForm onClose={() => setIsAddingTask(false)} />
+      </Modal>
     </div>
   );
 } 
