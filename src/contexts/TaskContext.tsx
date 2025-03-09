@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Task, TaskContextType, Priority } from '@/utils/types';
 import SecureLS from 'secure-ls';
+import { Task, TaskContextType, Priority } from '@/utils/types';
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
